@@ -219,7 +219,7 @@ NodeStatistics::AdvancePosition(Ptr<Node> node, int stepsSize, int stepsTime)
 	totalTime = 0;
 	m_output_power.Add(pos.x, atm);
 	m_output.Add(pos.x, mbs);
-	pos.x += stepsSize;
+	//pos.x += stepsSize;
 	SetPosition(node, pos);
 	NS_LOG_INFO("At time " << Simulator::Now().GetSeconds() << " sec; setting new position to " << pos);
 	Simulator::Schedule(Seconds(stepsTime), &NodeStatistics::AdvancePosition, this, node, stepsSize, stepsTime);
