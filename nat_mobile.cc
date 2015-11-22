@@ -61,10 +61,6 @@ NS_LOG_COMPONENT_DEFINE ("exp04-TcpFlowMonitor");
 static const uint32_t packetSize = 1420;
 
 
-//共通変数
-PointToPointHelper p2pRouter;
-
-
 class NodeStatistics
 {
 public:
@@ -225,9 +221,6 @@ NodeStatistics::AdvancePosition(Ptr<Node> node, int stepsSize, int stepsTime)
 	m_output.Add(pos.x, mbs);
 	pos.x += stepsSize;
 	SetPosition(node, pos);
-
-	Ipv4GlobalRoutingHelper::RecomputeRoutingTables();
-
 	NS_LOG_INFO("At time " << Simulator::Now().GetSeconds() << " sec; setting new position to " << pos);
 	Simulator::Schedule(Seconds(stepsTime), &NodeStatistics::AdvancePosition, this, node, stepsSize, stepsTime);
 }
@@ -254,22 +247,6 @@ void RateCallback(std::string path, uint32_t rate, Mac48Address dest)
 	NS_LOG_INFO((Simulator::Now()).GetSeconds() << " " << dest << " Rate " << rate);
 }
 
-
-
-//ノード作成メソッド
-/*
-void CreateNode(Ptr<NodeContainer> nc, NodeContainer pre, Ptr<NetDeviceContainer> ndc) {
-	nc.Add(pre.Get(1));
-	nc.Create(1);
-
-	ndc = p2pRouter.Install(nc);
-}
-void CreateNode(Ptr<NodeContainer> nc, NodeContainer pre, NodeContainer next, Ptr<NetDeviceContainer> ndc) {
-	nc.Add(pre.Get(1));
-	nc.Add(next.Get(1));
-	ndc = p2pRouter.Install(nc);
-}
-*/
 
 int
 main (int argc, char *argv[])
@@ -311,7 +288,7 @@ main (int argc, char *argv[])
 	p2pNodes.Create(2);
 
 	//中央ネットワークの設定
-	//PointToPointHelper p2pRouter;
+	PointToPointHelper p2pRouter;
 	p2pRouter.SetDeviceAttribute("DataRate", StringValue("1Mbps"));
 	p2pRouter.SetChannelAttribute("Delay", StringValue("5ms"));
 	//p2pRouter.SetQueue("ns3::DropTailQueue", "MaxPackets", UintegerValue(10));
@@ -348,15 +325,7 @@ main (int argc, char *argv[])
 	p2pNodec.Create(1);
 	NetDeviceContainer p2pDevicec;
 	p2pDevicec = p2pRouter.Install(p2pNodec);
-	/*
-	NodeContainer p2pNodeb;
-	NetDeviceContainer p2pDeviceb;
-	CreateNode(p2pNodeb, lanNodes, p2pNodea, p2pDeviceb);
-
-	NodeContainer p2pNodec;
-	NetDeviceContainer p2pDevicec;
-	CreateNode(p2pNodec, lanNodes, p2pDevicec);
-	*/
+	
 	NodeContainer p2pNoded;
 	p2pNoded.Add(p2pNodea.Get(1));
 	p2pNoded.Create(1);
