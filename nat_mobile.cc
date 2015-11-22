@@ -407,7 +407,7 @@ main (int argc, char *argv[])
 		"LayoutType", StringValue("RowFirst"));
 	
 	//mobility.SetMobilityModel("ns3::RandomWalk2dMobilityModel", "Bounds", RectangleValue(Rectangle(-50, 50, -50, 50)));
-	mobility.SetMobilityModel("ns3::ConstantPositionMobilityModel");
+	mobility.SetMobilityModel("ns3::ConstantPositionMobilityModel", "Bounds", RectangleValue(Rectangle(-50, 50, -50, 50));
 	mobility.Install(wifiStaNodes);
 	//mobility.Install(wifiSta2);
 	mobility.SetMobilityModel("ns3::ConstantPositionMobilityModel");
