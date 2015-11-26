@@ -251,13 +251,16 @@ void RateCallback(std::string path, uint32_t rate, Mac48Address dest)
 int
 main (int argc, char *argv[])
 {
+	//コマンドラインから
 	CommandLine cmd;
 	cmd.Parse(argc, argv);
 	
+	//wifiの強度なのかな
 	double maxPower = 17;
 	double minPower = 0;
 	uint32_t powerLevels = 18;
 
+	//何だろう
 	uint32_t rtsThreshold = 2346;
 	std::string manager = "ns3::ParfWifiManager";
 	std::string outputFileName = "parf";
@@ -279,6 +282,7 @@ main (int argc, char *argv[])
 	uint32_t nLan = 1;
 	//uint32_t nRouter = 4;
 
+	//送信されるパケットの設定
 	Config::SetDefault("ns3::OnOffApplication::PacketSize", UintegerValue(1024));
 	Config::SetDefault("ns3::OnOffApplication::DataRate", StringValue("500kb/s"));
 	Config::SetDefault("ns3::DropTailQueue::MaxPackets", UintegerValue(100));
@@ -309,7 +313,6 @@ main (int argc, char *argv[])
 	NodeContainer lanNodes;
 	lanNodes.Add(p2pNodes.Get(1));
 	lanNodes.Create(1);
-
 	NetDeviceContainer lanDevices;
 	lanDevices = p2pRouter.Install(lanNodes);
 	
@@ -449,6 +452,7 @@ main (int argc, char *argv[])
 	address.Assign(apDevice2);
 	address.Assign(wifiDevice2);
 
+	//インターフェースをつけないといけないっぽい
 	Ipv4InterfaceContainer i = address.Assign(wifiDevices);
 	
 	//UDPエコーサーバクライアント
