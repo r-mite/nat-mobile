@@ -392,7 +392,7 @@ main (int argc, char *argv[])
 	wifiDevices.Add(staDevices);
 	wifiDevices.Add(apDevices);
 
-	//wifiDevice2.Add(staDevice2);
+	wifiDevice2.Add(staDevice);
 	wifiDevice2.Add(apDevice2);
 
 
