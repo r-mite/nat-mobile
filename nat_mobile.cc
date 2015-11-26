@@ -95,6 +95,7 @@ private:
 	Gnuplot2dDataset m_output_power;
 };
 
+//コンストラクタ
 NodeStatistics::NodeStatistics(NetDeviceContainer aps, NetDeviceContainer stas)
 {
 	Ptr<NetDevice> device = aps.Get(0);
@@ -118,6 +119,7 @@ NodeStatistics::NodeStatistics(NetDeviceContainer aps, NetDeviceContainer stas)
 	m_output_power.SetTitle("Average Transmit Power");
 }
 
+//wifi設定
 void
 NodeStatistics::SetupPhy(Ptr<WifiPhy> phy)
 {
@@ -131,6 +133,7 @@ NodeStatistics::SetupPhy(Ptr<WifiPhy> phy)
 	}
 }
 
+//タイマー
 Time
 NodeStatistics::GetCalcTxTime(WifiMode mode)
 {
@@ -145,6 +148,7 @@ NodeStatistics::GetCalcTxTime(WifiMode mode)
 	return Seconds(0);
 }
 
+//wifiのエネルギーと時間計算
 void
 NodeStatistics::PhyCallback(std::string path, Ptr<const Packet> packet)
 {
@@ -157,6 +161,7 @@ NodeStatistics::PhyCallback(std::string path, Ptr<const Packet> packet)
 
 }
 
+//下に同様の関数あり
 void
 NodeStatistics::PowerCallback(std::string path, uint8_t power, Mac48Address dest)
 {
@@ -176,12 +181,14 @@ NodeStatistics::PowerCallback(std::string path, uint8_t power, Mac48Address dest
 	actualPower[dest] = dbm;
 }
 
+//上記同様
 void
 NodeStatistics::RateCallback(std::string path, uint32_t rate, Mac48Address dest)
 {
 	actualMode[dest] = myPhy->GetMode(rate);
 }
 
+//パケットのサイズ
 void
 NodeStatistics::RxCallback(std::string path, Ptr<const Packet> packet, const Address &from)
 {
@@ -194,6 +201,7 @@ NodeStatistics::CheckStatistics(double time)
 
 }
 
+//移動端末の位置設定
 void
 NodeStatistics::SetPosition(Ptr<Node> node, Vector position)
 {
@@ -201,6 +209,7 @@ NodeStatistics::SetPosition(Ptr<Node> node, Vector position)
 	mobility->SetPosition(position);
 }
 
+//移動端末の位置取得
 Vector
 NodeStatistics::GetPosition(Ptr<Node> node)
 {
@@ -208,6 +217,7 @@ NodeStatistics::GetPosition(Ptr<Node> node)
 	return mobility->GetPosition();
 }
 
+//移動量計算ルーチン
 void
 NodeStatistics::AdvancePosition(Ptr<Node> node, int stepsSize, int stepsTime)
 {
